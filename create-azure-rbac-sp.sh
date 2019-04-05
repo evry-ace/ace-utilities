@@ -3,13 +3,10 @@
 NAME=$1
 
 SERVER_APP=ace-${NAME}-server
-SERVER_SECRET=${AKS_SP_SECRET}
-
 CLIENT_APP=ace-${NAME}-client
 
-[[ -z "$SERVER_SECRET" ]] && {
-    SERVER_SECRET="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c40)"
-}
+GENERATED_SECRET="`echo $(< /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c40)`"
+SERVER_SECRET=${AKS_SERVER_SECRET:-$GENERATED_SECRET}
 
 # Create AKS AAD sever app
 SERVER_ID=$(az ad app create --display-name $SERVER_APP --identifier-uris http://$SERVER_APP --password $SERVER_SECRET --required-resource-accesses azure-server-manifest.json --query appId -o tsv)
