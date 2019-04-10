@@ -17,7 +17,7 @@ CLIENT_PERMS=$(cat <<EOF
 [{"resourceAccess": [{"id": "318f4279-a6d6-497a-8c69-a793bda0d54f","type": "Scope"}],"resourceAppId": "$SERVER_ID"}]
 EOF
 )
-CLIENT_ID=$(az ad app create --display-name $CLIENT_APP --native-app --required-resource-accesses "$CLIENT_PERMS" --query appId -o tsv)
+CLIENT_ID=$(az ad app create --display-name $CLIENT_APP --native-app --required-resource-accesses "$CLIENT_PERMS" --reply-urls https://localhost --query appId -o tsv)
 
 # Get tenant ID
 TENANT_ID=$(az account list --query '[?isDefault].{tenantId:tenantId}' -o tsv)
