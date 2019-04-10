@@ -5,7 +5,7 @@ NAME=$1
 SERVER_APP=ace-${NAME}-server
 CLIENT_APP=ace-${NAME}-client
 
-GENERATED_SECRET="`echo $(< /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c40)`"
+GENERATED_SECRET="`echo $(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c40)`"
 SERVER_SECRET=${AKS_SERVER_SECRET:-$GENERATED_SECRET}
 
 # Create AKS AAD sever app
