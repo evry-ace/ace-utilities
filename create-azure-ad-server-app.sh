@@ -4,7 +4,7 @@ set -e
 # load environment variables
 DETECTED_TENANT_ID=$(az account show --query tenantId)
 
-echo "We have found the current tenant automatically $DETECTED_TENANT_IDgjen, continue? y/n"
+echo "We have found the current tenant automatically $DETECTED_TENANT_ID, continue? y/n"
 read tenant_ok
 [ $tenant_ok != 'y' ] && exit 0
 
