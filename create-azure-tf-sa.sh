@@ -6,8 +6,15 @@ NAME=$1
 [ -z "$NAME" ] && NAME=common
 
 TF_SA_LOCATION=${TF_SA_LOCATION:-westeurope}
-TF_SA_NAME=${TF_SA_NAME:-ace${NAME}platformstate}
+TF_SA_NAME=${TF_SA_NAME:-${NAME}state}
 TF_SA_RG=${TF_SA_RG:-ace-$NAME-state}
+
+HAS="$(echo $TF_SA_NAME | wc -c)"
+SHOULD=24
+NEED=$(($SHOULD - $HAS))
+RAND=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c40 | tr [:upper:] [:lower:])
+
+TF_SA_NAME=${TF_SA_NAME}$(echo $RAND | cut -c 1-${NEED})
 
 az group create -n $TF_SA_RG -l $TF_SA_LOCATION
 az storage account create -n $TF_SA_NAME -g $TF_SA_RG
